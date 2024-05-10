@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import backgroundImage from './assets/background-img.png';
 import SignIn from './components/SignIn';
@@ -80,3 +80,4 @@ function App() {
 }
 
 export default App;
+

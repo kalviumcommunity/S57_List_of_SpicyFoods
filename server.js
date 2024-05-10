@@ -1,31 +1,30 @@
-const express = require('express');
-const { connectDb, checkConnected } = require('./db'); // Adjust the path as necessary
+const express = require('express')
+const mongoose = require('mongoose')
+const { connectDb, checkConnected }=require('./db');
+const routes = require('./route');
 
+  
 const app = express();
+connectDb();
 
-// Connect to MongoDB at startup
-connectDb().then(() => console.log("Database connection established successfully"));
+app.use(express.json());
+app.get('/ping',(req, res)=>{
+  res.send('pong')
 
-// Route to check MongoDB connection status
-app.get('/connect', (req, res) => {
-  const isConnected = checkConnected();
-  if (isConnected) {
-    res.send('Database is connected');
-  } else {
-    res.send('Database is not connected');
+});
+
+app.get('/',(req,res)=> {
+  if(checkConnected()){
+    res.send('Database connection status:connected');
+  }else{
+    res.send('Database connection status:connection failed');
+
   }
-});
 
-// Example routes
-app.get('/ping', (req, res) => {
-  res.send('pong');
-});
+  });
+app.use('/api',routes);
 
-app.get('/', (req, res) => {
-  res.send('Hello World to the API!');
-});
-
-// Start the server
-app.listen(3000, () => {
-  console.log('Node API is running on port 3000');
+const PORT = process.env.PORT||3000;
+app.listen(PORT,()=>{
+  console.log(`server running on port ${PORT}`);
 });
